@@ -36,7 +36,7 @@ export default class SetCity extends Component {
                             this.wheatherBloc.fetchWheatherInfo((error) => {
                                 if (!error) {
                                     
-                                    this.props.navigation.navigate("Weather")
+                                    this.props.navigation.goBack()
                                 } else {
                                     Alert(error)
                                 }

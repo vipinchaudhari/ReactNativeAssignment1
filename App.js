@@ -18,7 +18,7 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName={"dashboard"} drawerType="slide">
+      <Drawer.Navigator initialRouteName={"Profile"} drawerType="slide">
         <Drawer.Screen name="Weather" component={wheather} />
         <Drawer.Screen name="Set City" component={setCity} />
         <Drawer.Screen name="Profile" component={profile} />
