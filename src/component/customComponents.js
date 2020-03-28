@@ -1,7 +1,8 @@
-import React from 'react'
-import { TextInput, TouchableOpacity, Text, ActivityIndicator, View } from 'react-native'
+import React, { Component } from 'react'
+import { TextInput, TouchableOpacity, Text, ActivityIndicator, View, Image } from 'react-native'
 import style from '../style/style'
 import Animated from 'react-native-reanimated';
+import LinearGradient from 'react-native-linear-gradient'
 export const CustomInputText = (props) => {
     return (
         <TextInput {...props} style={style.textInput} />
@@ -28,11 +29,56 @@ export const CustomLoader = (props) => {
     )
 }
 
-export const CustomTabBar = ({ state, descriptors, navigation, position }) => {
+export class ProfileView extends Component {
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount(){
+        const options = {
+            title: 'Select Avatar',
+            customButtons: [{ name: 'Camera', title: 'Click new photo' },{ name: 'Gallery', title: 'Choose image from gallery' }],
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+          };
+    }
+    render() {
+        
+        return (
+
+            <View style={{ alignItems: 'center' }}>
+                
+                <TouchableOpacity onPress={() => {
+
+                }}>
+                    <Image source={require('../icons/profile_placeholder.png')} resizeMode={'center'} style={{ width: 100, height: 100, borderRadius: 60, }} />
+                    <Text style={{borderRadius:3,borderWidth:2, position:'absolute', top:0,right:-40, padding:2, textAlign:'center', textAlignVertical:'center', color:'white', borderColor:'white' }}>PRO</Text>
+                </TouchableOpacity>
+                
+                <Text style={{ color: 'white', margin: 8, fontSize: 20 }}>Bipin Chaudhari</Text>
+                <Text style={{ color: 'white', fontSize: 14 }}>Mobile App Developer</Text>
+            </View>
+        )
+    }
+
+}
+
+export const CustomTabBar = ({ state, descriptors, navigation, position, ProfileView }) => {
     return (
-        <View>
-            
-            <View style={{ height:250, flexDirection: 'row', paddingTop: 20, alignItems:'flex-end', backgroundColor:'red' }}>
+        <LinearGradient
+            useAngle={true}
+            angle={45}
+            angleCenter={{ x: 0.5, y: 0.75 }}
+            colors={['#D836A5', '#512888',]} style={{ height: 300, alignItems: 'center', justifyContent: 'flex-end', }}>
+            <TouchableOpacity style={{ position: 'absolute', top: 15, start: 15, width: 30, height: 30, zIndex: 1 }} onPress={() => {
+                navigation.openDrawer();
+            }} >
+                <Image style={{ width: 30, height: 30, }} source={require('../icons/menu.png')} />
+            </TouchableOpacity>
+            <ProfileView />
+            <View style={{ flexDirection: 'row', paddingTop: 20, alignItems: 'flex-end', }}>
+
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
                     const label =
@@ -79,14 +125,14 @@ export const CustomTabBar = ({ state, descriptors, navigation, position }) => {
                             style={{ flex: 1, }}>
 
                             <View>
-                                <Text style={{ width: '100%', padding: 8, textAlign: 'center', textAlignVertical: 'center' }}>{label}</Text>
-                                <Animated.View style={{ height: height, width: '100%', backgroundColor: '#1293C5' }}></Animated.View>
+                                <Text style={{ width: '100%', padding: 8, textAlign: 'center', textAlignVertical: 'center', color: 'white' }}>{label}</Text>
+                                <Animated.View style={{ height: height, width: '100%', backgroundColor: 'white', marginBottom: 2 }}></Animated.View>
                             </View>
 
                         </TouchableOpacity>
                     );
                 })}
             </View>
-        </View>
+        </LinearGradient>
     );
 }
