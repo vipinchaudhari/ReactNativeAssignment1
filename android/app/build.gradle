@@ -134,6 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {
@@ -192,6 +193,7 @@ dependencies {
 
     implementation project(':react-native-cardview')
     implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-image-crop-picker')
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

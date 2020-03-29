@@ -6,10 +6,11 @@ const Tab = createMaterialTopTabNavigator();
 export default class Profile extends Component {
     constructor(props) {
         super(props)
+        
     }
     render() {
         return (
-            <Tab.Navigator tabBar={(props)=><CustomTabBar {...props} ProfileView={(props)=><ProfileView/>}/>}>
+            <Tab.Navigator tabBar={(props)=><CustomTabBar {...props} ProfileView={ProfileView}/>}>
                 <Tab.Screen name="Booking Model" component={BookingModel} />
                 <Tab.Screen name="Settings" component={BookingModel} />
             </Tab.Navigator>

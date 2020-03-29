@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import { TextInput, TouchableOpacity, Text, ActivityIndicator, View, Image } from 'react-native'
+import React, { Component, useState, useEffect } from 'react'
+import { TextInput, TouchableOpacity, Text, ActivityIndicator, View, Image, AsyncStorage } from 'react-native'
 import style from '../style/style'
 import Animated from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient'
+import ImagePicker from 'react-native-image-crop-picker';
+import RBSheet from "react-native-raw-bottom-sheet";
 export const CustomInputText = (props) => {
     return (
         <TextInput {...props} style={style.textInput} />
@@ -28,43 +30,104 @@ export const CustomLoader = (props) => {
         </View>
     )
 }
+function areEqual(prevProps, nextProps) {
+    return false;
+  }
+export const ProfileView = React.memo(() => {
 
-export class ProfileView extends Component {
-    constructor(props) {
-        super(props)
+    const [image, setImage] = useState('');
+    var RBSheetRef;
+    useEffect(() => {
+        AsyncStorage.getItem("PROFILE_IMAGE", (error, image) => {
+            console.log("saved image", image)
+            if (image) {
+                setImage(image)
+            }
+        })
+    });
+    
+    const openCamera = () => {
+        //open camera
+        ImagePicker.openCamera({
+            cropping: false,
+            compressImageQuality: 0.3,
+            mediaType: 'photo'
+        }).then(image => {
+            console.log(image);
+            saveImage(image)
+        }, (rejected) => {
+
+        }).catch(err => console.log(err.code));
     }
-    componentDidMount(){
-        const options = {
-            title: 'Select Avatar',
-            customButtons: [{ name: 'Camera', title: 'Click new photo' },{ name: 'Gallery', title: 'Choose image from gallery' }],
-            storageOptions: {
-              skipBackup: true,
-              path: 'images',
-            },
-          };
+    const openGallery = () => {
+        ImagePicker.openPicker({
+            cropping: false,
+            multiple: false,
+            compressImageQuality: 0.3,
+            mediaType: 'photo'
+        }).then(image => {
+            console.log(image);
+            saveImage(image)
+        }, (rejected) => {
+
+        }).catch(err => console.log(err.code));
     }
-    render() {
-        
-        return (
-
-            <View style={{ alignItems: 'center' }}>
-                
-                <TouchableOpacity onPress={() => {
-
-                }}>
-                    <Image source={require('../icons/profile_placeholder.png')} resizeMode={'center'} style={{ width: 100, height: 100, borderRadius: 60, }} />
-                    <Text style={{borderRadius:3,borderWidth:2, position:'absolute', top:0,right:-40, padding:2, textAlign:'center', textAlignVertical:'center', color:'white', borderColor:'white' }}>PRO</Text>
-                </TouchableOpacity>
-                
-                <Text style={{ color: 'white', margin: 8, fontSize: 20 }}>Bipin Chaudhari</Text>
-                <Text style={{ color: 'white', fontSize: 14 }}>Mobile App Developer</Text>
-            </View>
-        )
+    const saveImage = async (image) => {
+        AsyncStorage.setItem("PROFILE_IMAGE", image.path);
+        setImage(image.path)
     }
 
-}
 
-export const CustomTabBar = ({ state, descriptors, navigation, position, ProfileView }) => {
+    return (
+
+        <View style={{ alignItems: 'center' }}>
+
+            <TouchableOpacity onPress={() => {
+                RBSheetRef.open()
+            }}>
+                <Image source={image ? { uri: `${image}` } : require('../icons/profile_placeholder.png')} style={{ width: 100, height: 100, borderRadius: 40, }} />
+                <Text style={{ borderRadius: 3, borderWidth: 2, position: 'absolute', top: 0, right: -40, padding: 2, textAlign: 'center', textAlignVertical: 'center', color: 'white', borderColor: 'white' }}>PRO</Text>
+            </TouchableOpacity>
+
+            <Text style={{ color: 'white', margin: 8, fontSize: 20 }}>Bipin Chaudhari</Text>
+            <Text style={{ color: 'white', fontSize: 14 }}>Mobile App Developer</Text>
+
+            <RBSheet
+                ref={ref => {
+                    RBSheetRef = ref;
+                }}
+                height={170}
+                duration={250}
+                customStyles={{
+                    container: {
+                        padding: 8
+                    }
+                }}
+            >
+                <View style={{ justifyContent: 'space-between', flex: 1 }}>
+                    <Text style={{ color: '#512888', fontSize: 24, fontWeight: 'bold' }}>Image Picker</Text>
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }} onPress={() => {
+                        RBSheetRef.close()
+                        openCamera()
+                    }}>
+                        <Text style={{ color: 'black', fontSize: 18, paddingVertical: 10 }}>Open Camera</Text>
+                    </TouchableOpacity>
+                    <View style={{ height: 1, backgroundColor: 'grey' }} />
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }} onPress={() => {
+                        RBSheetRef.close()
+                        this.openGallery();
+                    }}>
+                        <Text style={{ color: 'black', fontSize: 18, paddingVertical: 10 }}>Choose from gallery</Text>
+                    </TouchableOpacity>
+                </View>
+            </RBSheet>
+        </View >
+    )
+
+},areEqual)
+
+
+export const CustomTabBar = React.memo(({ state, descriptors, navigation, position, ProfileView }) => {
     return (
         <LinearGradient
             useAngle={true}
@@ -135,4 +198,4 @@ export const CustomTabBar = ({ state, descriptors, navigation, position, Profile
             </View>
         </LinearGradient>
     );
-}
+},areEqual)

@@ -27,7 +27,7 @@ export default style = StyleSheet.create({
         textAlign: 'center'
     },
     tempView: {
-        backgroundColor: "#1293C5",
+        backgroundColor:'transparent',
         flex: 0.4,
         borderRadius: 5,
         justifyContent: 'center',
@@ -46,7 +46,7 @@ export default style = StyleSheet.create({
         padding: 8,
         flex: 0.6,
         width: "100%",
-        borderColor: '#1293C5',
+        backgroundColor:'transparent',
         borderWidth: 2,
         borderRadius: 5
     },
@@ -54,19 +54,19 @@ export default style = StyleSheet.create({
         margin: 8,
         fontSize: 44,
         fontWeight: "bold",
-        color: "#1293C5",
+        color:'white'
     },
     dateText: {
         marginStart: 8,
         fontSize: 24,
         fontWeight: "900",
-        color: "black",
+        color:'white'
     },
     countryText: {
         fontSize: 16,
         lineHeight: 50,
         fontWeight: "bold",
-        color: "black"
+        color:'white'
     },
     weatherDetailTextView: {
         alignItems: 'flex-end',
@@ -75,6 +75,7 @@ export default style = StyleSheet.create({
     weatherDetailText: {
         fontSize:14,
         letterSpacing:2,
-        lineHeight:25
+        lineHeight:25,
+        color:'white'
     }
 })
