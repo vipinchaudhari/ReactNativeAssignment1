@@ -3,7 +3,7 @@ import { SafeAreaView, View, TextInput, Button, Alert } from 'react-native'
 import style from '../style/style'
 import { CITY_NAME, STATE_NAME, COUNTRY_NAME, SUBMIT } from '../utils/Constant'
 import { CustomInputText, CustomButton } from '../component/customComponents'
-import wheatherBloc from '../bloc/weatherBloc'
+import weatherBloc from '../bloc/weatherBloc'
 export default class SetCity extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +12,7 @@ export default class SetCity extends Component {
             state: '',
             country: ''
         }
-        this.wheatherBloc = new wheatherBloc();
+        this.weatherBloc = new weatherBloc();
     }
     render() {
         return (
@@ -33,12 +33,12 @@ export default class SetCity extends Component {
                     <CustomButton
                         title={SUBMIT}
                         onPress={() => {
-                            this.wheatherBloc.fetchWheatherInfo((error) => {
+                            this.weatherBloc.fetchWeatherInfo((error) => {
                                 if (!error) {
                                     
                                     this.props.navigation.goBack()
                                 } else {
-                                    Alert(error)
+                                    Alert.alert(error)
                                 }
                             }, this.state.city, this.state.state, this.state.country)
                         }} />

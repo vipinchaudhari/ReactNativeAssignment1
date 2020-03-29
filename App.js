@@ -10,7 +10,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import wheather from './src/screen/weather';
+import weather from './src/screen/weather';
 import profile from './src/screen/profile';
 import setCity from './src/screen/setCity'
 const Drawer = createDrawerNavigator();
@@ -18,8 +18,8 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName={"Profile"} drawerType="slide">
-        <Drawer.Screen name="Weather" component={wheather} />
+      <Drawer.Navigator initialRouteName={"Weather"} drawerType="slide" backBehavior={'initialRoute'}>
+        <Drawer.Screen name="Weather" component={weather} />
         <Drawer.Screen name="Set City" component={setCity} />
         <Drawer.Screen name="Profile" component={profile} />
       </Drawer.Navigator>

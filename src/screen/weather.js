@@ -16,11 +16,11 @@ export default class Dashboard extends Component {
     }
     componentDidMount() {
         this.weatherBloc.getCity().then((city) => {
-            this.weatherBloc.fetchWheatherInfo(null, city)
+            this.weatherBloc.fetchWeatherInfo(null, city)
         }, (error) => {
-            this.weatherBloc.fetchWheatherInfo(null, DEFAULT_CITY)
+            this.weatherBloc.fetchWeatherInfo(null, DEFAULT_CITY)
         }).catch(error => {
-            this.weatherBloc.fetchWheatherInfo(null, DEFAULT_CITY)
+            this.weatherBloc.fetchWeatherInfo(null, DEFAULT_CITY)
         })
 
     }

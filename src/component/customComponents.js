@@ -33,11 +33,12 @@ export const CustomLoader = (props) => {
 function areEqual(prevProps, nextProps) {
     return false;
   }
-export const ProfileView = React.memo(() => {
+export const ProfileView = React.memo(({profile}) => {
 
     const [image, setImage] = useState('');
     var RBSheetRef;
     useEffect(() => {
+        console.log("profile",JSON.stringify(profile))
         AsyncStorage.getItem("PROFILE_IMAGE", (error, image) => {
             console.log("saved image", image)
             if (image) {
@@ -85,12 +86,12 @@ export const ProfileView = React.memo(() => {
             <TouchableOpacity onPress={() => {
                 RBSheetRef.open()
             }}>
-                <Image source={image ? { uri: `${image}` } : require('../icons/profile_placeholder.png')} style={{ width: 100, height: 100, borderRadius: 40, }} />
+                <Image source={image ? { uri: `${image}` } : require('../icons/profile_placeholder.jpg')} style={{ width: 100, height: 100, borderRadius: 40, }} />
                 <Text style={{ borderRadius: 3, borderWidth: 2, position: 'absolute', top: 0, right: -40, padding: 2, textAlign: 'center', textAlignVertical: 'center', color: 'white', borderColor: 'white' }}>PRO</Text>
             </TouchableOpacity>
 
-            <Text style={{ color: 'white', margin: 8, fontSize: 20 }}>Bipin Chaudhari</Text>
-            <Text style={{ color: 'white', fontSize: 14 }}>Mobile App Developer</Text>
+        <Text style={{ color: 'white', margin: 8, fontSize: 20 }}>{profile.name}</Text>
+        <Text style={{ color: 'white', fontSize: 14 }}>{profile.profession}</Text>
 
             <RBSheet
                 ref={ref => {
@@ -115,7 +116,7 @@ export const ProfileView = React.memo(() => {
                     <View style={{ height: 1, backgroundColor: 'grey' }} />
                     <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }} onPress={() => {
                         RBSheetRef.close()
-                        this.openGallery();
+                        openGallery();
                     }}>
                         <Text style={{ color: 'black', fontSize: 18, paddingVertical: 10 }}>Choose from gallery</Text>
                     </TouchableOpacity>
@@ -127,7 +128,7 @@ export const ProfileView = React.memo(() => {
 },areEqual)
 
 
-export const CustomTabBar = React.memo(({ state, descriptors, navigation, position, ProfileView }) => {
+export const CustomTabBar = React.memo(({ state, descriptors, navigation, position, ProfileView, profile }) => {
     return (
         <LinearGradient
             useAngle={true}
@@ -139,7 +140,7 @@ export const CustomTabBar = React.memo(({ state, descriptors, navigation, positi
             }} >
                 <Image style={{ width: 30, height: 30, }} source={require('../icons/menu.png')} />
             </TouchableOpacity>
-            <ProfileView />
+            <ProfileView profile={profile}/>
             <View style={{ flexDirection: 'row', paddingTop: 20, alignItems: 'flex-end', }}>
 
                 {state.routes.map((route, index) => {

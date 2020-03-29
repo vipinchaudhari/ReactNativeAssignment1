@@ -1,5 +1,5 @@
 //Weather API
-export const WEATHER_API = "http://api.openweathermap.org/data/2.5/weather?appId=c80ec9ae4c3bb46ea1c97bb45ae5a4d6"
+export const WEATHER_API = "https://api.openweathermap.org/data/2.5/weather?appId=c80ec9ae4c3bb46ea1c97bb45ae5a4d6"
 export const DEFAULT_CITY = "Pune"
 
 export const CITY_NAME = 'City'
@@ -18,5 +18,7 @@ export const FORECAST = "Forecast: ";
 
 
 //validation messages
-export const provide_city_name = "Please profile city name"
+export const provide_city_name = "Please provide city name"
 export const loading_weather = "Please wait while loading weather information";
+export const loading_booking = "Loading booking details";
+export const loading_profile = "Loading profile...";
